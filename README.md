@@ -35,12 +35,33 @@ Aufgabe:
 | Zahl in der Aufgabe („20-mal“) | genau diese Zahl |
 | Nicht sinnvoll teilbar | kein Fan-out, ein Agent erledigt es |
 
+#### Mit eigenen Beispielen (empfohlen)
+
+Am besten erledigst du ein oder zwei Fälle selbst und gibst sie als Vorlage mit:
+
+```
+/utils:parallel Fass alle PDFs in ~/Belege/Oktober zusammen. Beispiele: ~/Belege/Oktober/zusammenfassungen/01.md und 02.md
+```
+
+Dann gilt:
+
+- Jeder Agent liest deine Beispiele und übernimmt **Aufbau, Länge, Detailtiefe, Ton und
+  Format**, aber **keine Inhalte, Formulierungen oder Zahlen** daraus.
+- Fälle, die du schon erledigt hast, verteilt der Skill nicht noch einmal.
+- Die eigene Probe entfällt, weil du das Ergebnis schon abgenommen hast.
+- Die Ergebnisse landen neben deinen Beispielen, im gleichen Namensschema.
+- Am Ende prüft der Skill stichprobenartig, ob ein Agent Inhalte aus den Beispielen
+  abgeschrieben hat.
+
+#### Weitere Regeln
+
 Dazu die Regeln, die sich in Anthropics Doku und in der Praxis bewährt haben:
 
 - **Alle in einer Nachricht.** Nur dann laufen die Agenten wirklich gleichzeitig.
 - **Eine Datei pro Agent** unter `parallel/<name>/`. Kein Agent überschreibt den anderen.
-- **Erst testen.** Ab 8 Agenten laufen zuerst zwei als Probe. So zahlst du einen
-  Fehler im Prompt zweimal statt zwanzigmal.
+- **Erst testen.** Ohne eigene Beispiele laufen ab 8 Agenten zuerst zwei als Probe.
+  Ihr Ergebnis wird dann zur Vorlage für den Rest. So zahlst du einen Fehler im Prompt
+  zweimal statt zwanzigmal.
 - **Eigenständige Prompts.** Jeder Agent bekommt Ziel, Kontext, Grenzen und das
   Ausgabeformat, denn er kennt das Gespräch nicht.
 - **Gleiches Modell für alle.** Dann teilen sich die Agenten den Prompt-Cache.

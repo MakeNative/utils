@@ -1,7 +1,7 @@
 {
   "name": "utils",
   "description": "Kleine Helfer für den Alltag mit Claude Code. Enthält /utils:parallel: verteilt eine Aufgabe auf bis zu 20 Agenten, die gleichzeitig laufen. Die Hauptsession entscheidet selbst, wie viele Agenten es braucht und wer welches Stück bekommt, testet bei großen Läufen erst mit zwei Agenten und führt am Ende alles in einer Zusammenfassung zusammen.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "ceichmueller"
   },
