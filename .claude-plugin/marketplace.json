@@ -1,0 +1,11 @@
+{
+  "name": "utils",
+  "owner": { "name": "MakeNative" },
+  "plugins": [
+    {
+      "name": "utils",
+      "source": ".",
+      "description": "Kleine Helfer für den Alltag mit Claude Code. Erster Skill: /utils:parallel verteilt eine Aufgabe auf mehrere gleichzeitig laufende Agenten."
+    }
+  ]
+}
