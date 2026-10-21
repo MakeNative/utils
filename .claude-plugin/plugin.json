@@ -1,7 +1,7 @@
 {
   "name": "utils",
-  "description": "Kleine Helfer für den Alltag mit Claude Code. Enthält /utils:parallel: verteilt eine Aufgabe auf bis zu 20 Agenten, die gleichzeitig laufen. Die Hauptsession entscheidet selbst, wie viele Agenten es braucht und wer welches Stück bekommt, testet bei großen Läufen erst mit zwei Agenten und führt am Ende alles in einer Zusammenfassung zusammen.",
-  "version": "0.2.0",
+  "description": "Kleine Helfer für den Alltag mit Claude Code. /utils:parallel verteilt eine Aufgabe auf bis zu 20 gleichzeitig laufende Agenten und führt die Ergebnisse zusammen. /utils:goal-tracker hält eine Session bei ihrem Ziel: Ziel-Datei mit Endzustand, Prüfung und Scope, fertige /goal-Zeile, geparkte Nebenbefunde, Hooks gegen Vergessen nach Kompaktierung und eine Übersicht über alle offenen Sessions.",
+  "version": "0.3.0",
   "author": {
     "name": "ceichmueller"
   },

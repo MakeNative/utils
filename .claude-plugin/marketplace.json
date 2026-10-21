@@ -1,11 +1,13 @@
 {
   "name": "utils",
-  "owner": { "name": "MakeNative" },
+  "owner": {
+    "name": "MakeNative"
+  },
   "plugins": [
     {
       "name": "utils",
       "source": ".",
-      "description": "Kleine Helfer für den Alltag mit Claude Code. Erster Skill: /utils:parallel verteilt eine Aufgabe auf mehrere gleichzeitig laufende Agenten."
+      "description": "Kleine Helfer für den Alltag mit Claude Code: /utils:parallel verteilt eine Aufgabe auf mehrere gleichzeitig laufende Agenten, /utils:goal-tracker hält jede Session bei ihrem Ziel und zeigt die Ziele aller Terminals."
     }
   ]
 }

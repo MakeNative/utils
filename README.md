@@ -75,6 +75,61 @@ Dazu die Regeln, die sich in Anthropics Doku und in der Praxis bewährt haben:
 Für eine Codeänderung über viele Dateien (Umbenennen, Migration) ist das
 eingebaute `/batch` von Claude Code besser. Der Skill schlägt es dann vor.
 
+### `/utils:goal-tracker` – eine Session bei ihrem Ziel halten
+
+Nach einer Weile driftet Claude gern ab: Hier ein Bug, dort ein Aufräumen, und
+das eigentliche Ziel rückt aus dem Blick. Mit fünf oder mehr offenen Terminals
+fällt das oft erst spät auf. Der Skill gibt jeder Session ein festes Ziel, das
+außerhalb des Gesprächs liegt und deshalb auch eine Kompaktierung übersteht.
+
+```
+/utils:goal-tracker Login-Tests in test/auth grün bekommen
+/utils:goal-tracker list
+/utils:goal-tracker done
+/utils:goal-tracker statusline
+```
+
+**Ziel setzen.** Der Skill macht aus deiner Beschreibung einen messbaren
+Endzustand, eine Prüfung, einen Scope und eine Liste dessen, was nicht
+dazugehört. Nachfragen kommen nur, wenn sich etwas nicht ableiten lässt. Das
+Ergebnis landet in `~/.claude/goal-tracker/<session-id>.md`. Dazu gibt er eine fertige
+Zeile für das eingebaute `/goal` aus. Du fügst sie ein, und ab dann prüft ein
+eigenes Modell nach jedem Turn, ob das Ziel erreicht ist und der Scope
+eingehalten wurde.
+
+**Nebenbefunde parken.** Was Claude außerhalb des Scopes findet, bearbeitet es
+nicht, sondern notiert es als Zeile unter `## Geparkt` in der Ziel-Datei. Mit
+`/utils:goal-tracker done` wird aus jedem geparkten Befund ein Startprompt für eine
+eigene neue Session.
+
+**Ziel bleibt im Kontext.** Zwei Hooks laufen automatisch, sobald das Plugin
+installiert ist:
+
+- Nach Start, Resume und Kompaktierung lädt ein `SessionStart`-Hook die
+  Ziel-Datei frisch in den Kontext.
+- Bei jedem Prompt hängt ein `UserPromptSubmit`-Hook eine Zeile mit Ziel und
+  Scope an. Hat die Session noch keinen eigenen Namen, bekommt sie den Namen
+  aus dem Ziel.
+
+Sessions ohne Ziel-Datei bleiben unberührt.
+
+**Alle Terminals im Blick.** `/utils:goal-tracker list` zeigt die Ziele aller offenen
+Sessions in einer Tabelle, mit Projekt und Anzahl geparkter Befunde. Welche
+davon gerade auf dich wartet, zeigt `claude agents`.
+`/utils:goal-tracker statusline` trägt eine Statusline ein, die in jedem Terminal Name,
+Ziel, geparkte Befunde und Kontextfüllung zeigt:
+
+```
+[auth-tests] ◎ Login-Tests grün | geparkt: 1 | ctx 42%
+```
+
+Eine vorhandene Statusline ersetzt der Skill nur nach Rückfrage. Nach einem
+Plugin-Update führst du den Befehl einmal erneut aus.
+
+Grenzen: Ein Skill kann `/goal` nicht selbst setzen, deshalb das Einfügen.
+`/clear`, `/fork` und `/branch` starten eine neue Session-ID. Die neue Session
+hat also erst wieder ein Ziel, wenn du eins setzt.
+
 ## MakeNative
 
 Dieses Plugin ist Teil von [MakeNative](https://makenative.de). Wir arbeiten jeden Tag mit
