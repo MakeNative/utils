@@ -130,6 +130,45 @@ Grenzen: Ein Skill kann `/goal` nicht selbst setzen, deshalb das Einfügen.
 `/clear`, `/fork` und `/branch` starten eine neue Session-ID. Die neue Session
 hat also erst wieder ein Ziel, wenn du eins setzt.
 
+### `/utils:fortsetzen` – weiterarbeiten ohne Kompaktierung
+
+Wird der Kontext voll, kompaktiert Claude Code: Das Modell liest die ganze
+Session noch einmal, schreibt eine Zusammenfassung und macht damit weiter. Das
+kostet Zeit und Geld, und die Zusammenfassung verliert genau die Details, die
+man später braucht: die exakte Fehlermeldung, den Pfad, die eine Zahl.
+
+Dabei liegt jede Session ohnehin vollständig als Datei unter
+`~/.claude/projects/`. Der Skill nutzt das. Statt zu kompaktieren, startest du
+frisch und lässt die neue Session in der alten nachschlagen:
+
+```
+/clear
+/utils:fortsetzen
+```
+
+```
+/utils:fortsetzen liste          # letzte Sessions dieses Projekts
+/utils:fortsetzen b4a5001e       # eine bestimmte Session, ID-Anfang reicht
+```
+
+**Startstand.** Ohne Angabe nimmt der Skill die zuletzt geänderte andere
+Session im selben Ordner. Er lädt nur einen kurzen Stand: Titel, Ordner und
+Branch, deine Eingaben mit Nachrichtennummer, die zuletzt geänderten Dateien,
+eine vorhandene Kompaktierungs-Zusammenfassung und die letzten 25 Nachrichten.
+
+**Details bei Bedarf.** Alles Weitere sucht Claude im Transkript, sobald es
+gebraucht wird, und übernimmt es wörtlich, mit Nachrichtennummer. Dafür liegt
+ein Skript bei (`suche` und `zeige`), das das Transkript einmal in Klartext
+umwandelt und zwischenspeichert. Bei 44 MB dauert das etwa eine Sekunde.
+
+**Ziel bleibt.** Hatte die alte Session ein Ziel aus `/utils:goal-tracker`,
+übernimmt die neue es samt geparkten Befunden.
+
+Grenzen: Der Skill springt nicht von selbst ein, wenn der Kontext voll wird.
+Das Kompaktieren steuert Claude Code. Du rufst `/clear` und den Skill auf,
+bevor es so weit ist. Was die neue Session nicht sucht, weiß sie nicht. Bei
+offenen Fäden hilft es, in einem Satz zu sagen, woran du weiterarbeiten willst.
+
 ## MakeNative
 
 Dieses Plugin ist Teil von [MakeNative](https://makenative.de). Wir arbeiten jeden Tag mit
