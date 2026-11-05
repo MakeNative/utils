@@ -1,7 +1,7 @@
 {
   "name": "utils",
-  "description": "Kleine Helfer für den Alltag mit Claude Code. /utils:parallel verteilt eine Aufgabe auf bis zu 20 gleichzeitig laufende Agenten und führt die Ergebnisse zusammen. /utils:goal-tracker hält eine Session bei ihrem Ziel: Ziel-Datei mit Endzustand, Prüfung und Scope, fertige /goal-Zeile, geparkte Nebenbefunde, Hooks gegen Vergessen nach Kompaktierung und eine Übersicht über alle offenen Sessions. /utils:fortsetzen ersetzt Kompaktierung: frische Session, die Details wörtlich aus dem vollständigen Transkript der alten nachschlägt.",
-  "version": "0.4.0",
+  "description": "Kleine Helfer für den Alltag mit Claude Code. /utils:parallel verteilt eine Aufgabe auf bis zu 20 gleichzeitig laufende Agenten und führt die Ergebnisse zusammen. /utils:goal-tracker hält eine Session bei ihrem Ziel: Ziel-Datei mit Endzustand, Prüfung und Scope, fertige /goal-Zeile, geparkte Nebenbefunde, Hooks gegen Vergessen nach Kompaktierung und eine Übersicht über alle offenen Sessions. /utils:fortsetzen ersetzt Kompaktierung: frische Session, die Details wörtlich aus dem vollständigen Transkript der alten nachschlägt. /utils:repo-check prüft fremde GitHub-Repos auf Köder-Merkmale, bevor Dateien daraus geladen werden.",
+  "version": "0.5.0",
   "author": {
     "name": "ceichmueller"
   },

@@ -169,6 +169,27 @@ Das Kompaktieren steuert Claude Code. Du rufst `/clear` und den Skill auf,
 bevor es so weit ist. Was die neue Session nicht sucht, weiß sie nicht. Bei
 offenen Fäden hilft es, in einem Satz zu sagen, woran du weiterarbeiten willst.
 
+### `/utils:repo-check` – fremde Repos prüfen, bevor etwas geladen wird
+
+Auf GitHub liegen Kopien echter Projekte, deren README auf eine ZIP mit vermutlicher
+Schadsoftware zeigt. Wer Repos von Agenten durchsuchen lässt, stößt früher oder später
+darauf. Der Skill schaut deshalb zuerst nur auf Dateibaum und Kontodaten und lädt
+dabei keine einzige Datei.
+
+```
+/utils:repo-check owner/repo owner/anderes-repo
+```
+
+| Ergebnis | Bedeutung | Danach |
+|---|---|---|
+| `OK` | keine Köder-Merkmale | Dateien dürfen als Text geladen werden |
+| `VERDÄCHTIG` | Archiv oder Installer im Repo, oder junges Konto mit wenigen Repos und ein älteres Repo gleichen Namens | nichts laden, nicht empfehlen, von Hand ansehen |
+| `FEHLER` | nicht vollständig geprüft | behandeln wie `VERDÄCHTIG` |
+
+Auch seriöse Projekte enthalten manchmal Binärdateien, ein Treffer ist also ein Grund
+zum Hinsehen und kein Urteil. Umgekehrt kommt ein Köder durch, der nur auf eine externe
+Seite verlinkt. Fremde Dateien bleiben deshalb in jedem Fall Text und werden nie ausgeführt.
+
 ## MakeNative
 
 Dieses Plugin ist Teil von [MakeNative](https://makenative.de). Wir arbeiten jeden Tag mit
