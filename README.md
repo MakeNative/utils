@@ -130,7 +130,7 @@ Grenzen: Ein Skill kann `/goal` nicht selbst setzen, deshalb das Einfügen.
 `/clear`, `/fork` und `/branch` starten eine neue Session-ID. Die neue Session
 hat also erst wieder ein Ziel, wenn du eins setzt.
 
-### `/utils:fortsetzen` – weiterarbeiten ohne Kompaktierung
+### `/utils:continue` – weiterarbeiten ohne Kompaktierung
 
 Wird der Kontext voll, kompaktiert Claude Code: Das Modell liest die ganze
 Session noch einmal, schreibt eine Zusammenfassung und macht damit weiter. Das
@@ -143,12 +143,12 @@ frisch und lässt die neue Session in der alten nachschlagen:
 
 ```
 /clear
-/utils:fortsetzen
+/utils:continue
 ```
 
 ```
-/utils:fortsetzen liste          # letzte Sessions dieses Projekts
-/utils:fortsetzen b4a5001e       # eine bestimmte Session, ID-Anfang reicht
+/utils:continue list           # letzte Sessions dieses Projekts
+/utils:continue b4a5001e       # eine bestimmte Session, ID-Anfang reicht
 ```
 
 **Startstand.** Ohne Angabe nimmt der Skill die zuletzt geänderte andere
@@ -189,6 +189,39 @@ dabei keine einzige Datei.
 Auch seriöse Projekte enthalten manchmal Binärdateien, ein Treffer ist also ein Grund
 zum Hinsehen und kein Urteil. Umgekehrt kommt ein Köder durch, der nur auf eine externe
 Seite verlinkt. Fremde Dateien bleiben deshalb in jedem Fall Text und werden nie ausgeführt.
+
+### `/utils:my-voice` – Texte in deinem eigenen Ton
+
+Texte von Claude klingen schnell nach Claude: glatt, höflich, voller Gedankenstriche.
+Der Skill schreibt so, wie du selbst schreibst. Grundlage ist ein Stilprofil aus
+deinen eigenen Texten, das nur auf deinem Rechner liegt.
+
+```
+/utils:my-voice learn ~/Texte/meine-nachrichten.txt
+/utils:my-voice Antwort an Anna: Freitag passt, das Angebot kommt bis Montag
+/utils:my-voice Beantworte den Fragebogen in ~/Downloads/fragen.docx
+```
+
+**Profil anlegen.** Mit `learn` und ein paar eigenen Texten (Chat-Export, Mails,
+Antworten in Docs) leitet der Agent `utils:voice-writer` dein Profil ab: Grundton,
+Wortschatz, Kurzformen, Satzrhythmus, Satzzeichen, Emojis, Sprachmix, Haltung und eine
+Liste dessen, was du nie schreibst. Passwörter, Mailadressen, Telefonnummern und Namen
+Dritter kommen nicht ins Profil. Es liegt unter
+`~/.claude/agent-memory/utils-voice-writer/VOICE.md` und wird nie Teil eines Repos.
+
+**Schreiben.** Der Skill sammelt Kanal, Empfänger, Zweck und Material und startet den
+Agenten. Inhalte kommen nur aus dem Material. Fehlt etwas, steht `[offen: …]` im Text,
+statt dass etwas erfunden wird. Vor dem Zeigen prüft der Skill auf KI-Floskeln und
+Geviertstriche.
+
+**Genauer mit jeder Runde.** Sagst du „zu förmlich“ oder „so würd ich das nie sagen“,
+überarbeitet der Agent den Text und trägt die Lehre in `MEMORY.md` neben dem Profil ein.
+
+Sollen mehrere Texte gleichzeitig entstehen, etwa fünf Post-Varianten, nimmt
+`/utils:parallel` den Voice-Writer, sobald es ein Profil gibt.
+
+Grenzen: Der Skill verschickt nichts. Das Profil ist nur so gut wie die Proben, Texte
+aus mehreren Kanälen machen es genauer.
 
 ## MakeNative
 

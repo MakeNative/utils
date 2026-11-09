@@ -1,7 +1,7 @@
 ---
-name: fortsetzen
-description: "Setzt eine frühere Session in einer frischen Session fort, ohne Kompaktierung: liest einen kurzen Startstand aus dem vollständigen Transkript der alten Session und holt Details (Pfade, Fehlermeldungen, Zahlen, Entscheidungen) erst bei Bedarf wörtlich nach. Nutze den Skill statt /compact: /clear, dann /utils:fortsetzen. Auch wenn jemand sagt „mach da weiter, wo Session X aufgehört hat“. Triggers on: /utils:fortsetzen [session-id | präfix | liste]"
-argument-hint: "[session-id | präfix | liste]"
+name: continue
+description: "Setzt eine frühere Session in einer frischen Session fort, ohne Kompaktierung: liest einen kurzen Startstand aus dem vollständigen Transkript der alten Session und holt Details (Pfade, Fehlermeldungen, Zahlen, Entscheidungen) erst bei Bedarf wörtlich nach. Nutze den Skill statt /compact: /clear, dann /utils:continue. Auch wenn jemand sagt „mach da weiter, wo Session X aufgehört hat“. Triggers on: /utils:continue [session-id | prefix | list]"
+argument-hint: "[session-id | prefix | list]"
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/transkript.sh *)
 ---
 
@@ -11,9 +11,9 @@ Eigene Session: `${CLAUDE_SESSION_ID}`. Werkzeug: `T=${CLAUDE_SKILL_DIR}/scripts
 
 Claude Code speichert jede Session vollständig unter `~/.claude/projects/<projekt>/<id>.jsonl`. Dieser Skill lädt davon nur einen Startstand und behandelt den Rest als Nachschlagewerk.
 
-## `liste`
+## `list`
 
-Führ `$T liste 10 ${CLAUDE_SESSION_ID}` aus. Zeig die Zeilen (ID gekürzt auf 8 Zeichen, Zeit, Größe, Titel) als Tabelle. Darunter ein Satz: Mit `/utils:fortsetzen <id-anfang>` geht es weiter. Dann aufhören.
+Führ `$T liste 10 ${CLAUDE_SESSION_ID}` aus. Zeig die Zeilen (ID gekürzt auf 8 Zeichen, Zeit, Größe, Titel) als Tabelle. Darunter ein Satz: Mit `/utils:continue <id-anfang>` geht es weiter. Dann aufhören.
 
 ## Sonst: fortsetzen
 
@@ -33,4 +33,4 @@ Führ `$T liste 10 ${CLAUDE_SESSION_ID}` aus. Zeig die Zeilen (ID gekürzt auf 8
 - Zitier, was du von dort übernimmst, wörtlich und nenn die Nachrichtennummer (`#4711`), wenn du dich gegenüber dem Nutzer darauf berufst.
 - Lade nie das ganze Transkript. Suchmuster lieber zweimal enger fassen als einmal 40 Treffer lesen.
 - Der Zustand auf der Platte kann neuer sein als das Transkript. Prüf Dateien, Branches und laufende Prozesse direkt, bevor du dich auf den Stand im Transkript verlässt.
-- Wurde die alte Session selbst mit `/utils:fortsetzen` gestartet, steht der Pfad ihrer Vorgängerin in ihrem Transkript: `$T suche <datei> 'transkript.sh stand'`. Dort liest du weiter, wenn du etwas von noch weiter vorn brauchst.
+- Wurde die alte Session selbst mit `/utils:continue` (früher `/utils:fortsetzen`) gestartet, steht der Pfad ihrer Vorgängerin in ihrem Transkript: `$T suche <datei> 'transkript.sh stand'`. Dort liest du weiter, wenn du etwas von noch weiter vorn brauchst.

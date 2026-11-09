@@ -61,7 +61,7 @@ Jeder Agent-Prompt ist eigenständig, denn der Agent kennt dieses Gespräch nich
 - **Ausgabe:** den absoluten Pfad seiner Ergebnisdatei und die gewünschte Form, bei allen Agenten gleich, damit sich die Ergebnisse zusammenführen lassen.
 - **Rückmeldung:** eine kurze Antwort an dich (2–3 Sätze, Status und Pfad). Den Inhalt nicht wiederholen.
 
-Wähle `subagent_type` passend zur Aufgabe. Passt kein Spezialagent, nimm `general-purpose`. Alle Agenten bekommen denselben Typ und dasselbe Modell, dann teilen sie sich den Prompt-Cache. Für einfache, mechanische Stücke (zusammenfassen, extrahieren, umformatieren) setzt du `model: "sonnet"` oder `"haiku"`. Das spart viel Kontingent. `description` nennt das Stück, z. B. „Kunde 07 Müller GmbH".
+Wähle `subagent_type` passend zur Aufgabe. Passt kein Spezialagent, nimm `general-purpose`. Sollen die Texte klingen, als hätte der Nutzer sie selbst geschrieben („in meinem Ton“, „so wie ich schreibe“), und gibt es `~/.claude/agent-memory/utils-voice-writer/VOICE.md`, nimm `utils:voice-writer`. Jeder Prompt nennt dann Modus `write`, Kanal, Empfänger und Material, und die Ergebnisdatei ist sein Ausgabepfad. Alle Agenten bekommen denselben Typ und dasselbe Modell, dann teilen sie sich den Prompt-Cache. Für einfache, mechanische Stücke (zusammenfassen, extrahieren, umformatieren) setzt du `model: "sonnet"` oder `"haiku"`. Das spart viel Kontingent. `description` nennt das Stück, z. B. „Kunde 07 Müller GmbH".
 
 ## 4. Warten und zusammenführen
 
