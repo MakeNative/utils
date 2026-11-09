@@ -1,7 +1,7 @@
 ---
 name: my-voice
-description: "Schreibt Chat-Nachrichten, Mails, Antworten auf Fragen oder Fragebögen und Doc-Texte in deinem persönlichen Ton. Der Agent utils:voice-writer liest dein Stilprofil und schreibt den Text, ohne Fakten zu erfinden, eine Prüfung fängt KI-Floskeln ab, und deine Korrekturen landen im Memory, damit der Ton mit jeder Runde genauer wird. Ohne Profil legt der Skill es zuerst aus deinen eigenen Texten an. Nutze ihn, wenn jemand sagt „schreib das in meinem Ton“ oder „antworte so, wie ich schreiben würde“. Triggers on: /utils:my-voice <Auftrag> | learn <Stilproben>"
-argument-hint: "<was geschrieben werden soll> | learn <Pfad oder Text>"
+description: "Schreibt Chat-Nachrichten, Mails, Antworten auf Fragen oder Fragebögen, Doc-Texte und Posts in deinem persönlichen Ton. Der Agent utils:voice-writer liest dein Stilprofil und schreibt den Text, ohne Fakten zu erfinden, eine Prüfung fängt KI-Floskeln ab, und deine Korrekturen landen im Memory, damit der Ton mit jeder Runde genauer wird. Das Profil legt /utils:adapt-voice an. Nutze ihn, wenn jemand sagt „schreib das in meinem Ton“ oder „antworte so, wie ich schreiben würde“. Triggers on: /utils:my-voice <Auftrag>"
+argument-hint: "<was geschrieben werden soll>"
 ---
 
 Eingabe: $ARGUMENTS
@@ -10,10 +10,10 @@ Profil: `~/.claude/agent-memory/utils-voice-writer/VOICE.md`. Korrekturen: `MEMO
 
 Du bist der Auftraggeber. Den Text schreibt der Agent. Du sammelst das Material, prüfst das Ergebnis und hältst Korrekturen fest.
 
-## 1. Modus wählen
+## 1. Profil prüfen
 
-- Beginnt die Eingabe mit `learn`, mach mit Schritt 5 weiter.
-- Sonst wird geschrieben. Fehlt `VOICE.md`, sag in einem Satz, dass es noch kein Profil gibt, und bitte um eigene Texte des Nutzers (Pfade, Chat-Export, eingefügter Text). Leg das Profil mit Schritt 5 an und kehr dann zu Schritt 2 zurück.
+- Geht es darum, Texte des Nutzers einzulesen oder das Profil zu verbessern („lern meinen Stil“, früher `learn`), ruf `/utils:adapt-voice` mit der Eingabe auf und hör hier auf.
+- Fehlt `VOICE.md`, sag in einem Satz, dass es noch kein Profil gibt, und ruf `/utils:adapt-voice` auf. Danach geht es mit Schritt 2 weiter.
 
 ## 2. Auftrag sammeln
 
@@ -31,7 +31,7 @@ Frag nur nach, wenn Kanal, Empfänger oder Zweck sich nicht ableiten lassen, und
 
 Leg `~/.claude/agents-log/<JJJJ-MM-TT-HHMM>-my-voice.md` an. Darin steht unter `## Auftrag`: Modus `write`, Kanal, Empfänger, Länge, Zweck, die Sprache nur bei ausdrücklichem Wunsch des Nutzers, das Material (als Text oder absolute Pfade) und der Ausgabepfad. Bei Doc-Texten und Fragebögen ist das eine Datei, sonst „nur im Log“.
 
-Starte `utils:voice-writer` mit dem Pfad zum Log und diesem Auftrag: „Lies `## Auftrag` in <Log>, schreib den Text, häng ihn unter `## Voice-Writer` an und antworte im Ergebnisformat deiner Anweisung.“ Warte auf `TEXT FERTIG`. Kommt `KEIN PROFIL`, geh zu Schritt 5.
+Starte `utils:voice-writer` mit dem Pfad zum Log und diesem Auftrag: „Lies `## Auftrag` in <Log>, schreib den Text, häng ihn unter `## Voice-Writer` an und antworte im Ergebnisformat deiner Anweisung.“ Warte auf `TEXT FERTIG`. Kommt `KEIN PROFIL`, ruf `/utils:adapt-voice` auf.
 
 ## 4. Prüfen, zeigen, lernen
 
@@ -47,18 +47,10 @@ Korrigiert der Nutzer den Ton („zu förmlich“, „so würd ich das nie sagen
 
 Verschick nichts selbst. Abschicken tut der Nutzer.
 
-## 5. Profil anlegen oder ergänzen (`learn`)
-
-1. Stilproben sammeln: Pfade oder eingefügter Text aus der Eingabe. Nur Texte, die der Nutzer selbst geschrieben hat. Bei Chatverläufen filterst du vorher auf seine eigenen Nachrichten. Binärformate wandelst du in Text um und legst ihn neben das Log.
-2. Leg das Log an mit `## Auftrag`: Modus `learn` und die absoluten Pfade der Proben.
-3. Starte `utils:voice-writer` mit dem Pfad zum Log und warte auf `PROFIL FERTIG`.
-4. Zeig dem Nutzer `NEU`, `WIDERSPRUCH` und `GEFILTERT` aus dem Ergebnis. Widersprüche entscheidet der Nutzer, nicht der Agent.
-
-## 6. Bericht
+## 5. Bericht
 
 Antworte kurz:
 
 - der Text oder sein Pfad
 - die `FRAGLICH`-Punkte
 - ob eine Lehre ins Memory ging
-- im Modus `learn`: Pfad zum Profil und die wichtigsten neuen Regeln

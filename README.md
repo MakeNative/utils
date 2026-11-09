@@ -197,16 +197,12 @@ Der Skill schreibt so, wie du selbst schreibst. Grundlage ist ein Stilprofil aus
 deinen eigenen Texten, das nur auf deinem Rechner liegt.
 
 ```
-/utils:my-voice learn ~/Texte/meine-nachrichten.txt
 /utils:my-voice Antwort an Anna: Freitag passt, das Angebot kommt bis Montag
 /utils:my-voice Beantworte den Fragebogen in ~/Downloads/fragen.docx
+/utils:my-voice LinkedIn-Post aus meinem Entwurf in ~/Texte/entwurf.md
 ```
 
-**Profil anlegen.** Mit `learn` und ein paar eigenen Texten (Chat-Export, Mails,
-Antworten in Docs) leitet der Agent `utils:voice-writer` dein Profil ab: Grundton,
-Wortschatz, Kurzformen, Satzrhythmus, Satzzeichen, Emojis, Sprachmix, Haltung und eine
-Liste dessen, was du nie schreibst. Passwörter, Mailadressen, Telefonnummern und Namen
-Dritter kommen nicht ins Profil. Es liegt unter
+**Profil.** Das Profil legt `/utils:adapt-voice` an (siehe unten). Es liegt unter
 `~/.claude/agent-memory/utils-voice-writer/VOICE.md` und wird nie Teil eines Repos.
 
 **Schreiben.** Der Skill sammelt Kanal, Empfänger, Zweck und Material und startet den
@@ -222,6 +218,52 @@ Sollen mehrere Texte gleichzeitig entstehen, etwa fünf Post-Varianten, nimmt
 
 Grenzen: Der Skill verschickt nichts. Das Profil ist nur so gut wie die Proben, Texte
 aus mehreren Kanälen machen es genauer.
+
+### `/utils:adapt-voice` – deinen Stil einlesen und messen
+
+Der Skill legt das Stilprofil für `/utils:my-voice` an oder schärft es nach. Du gibst
+ihm keine Texte von Hand, er sammelt sie selbst ein, und am Ende siehst du in Zahlen, ob
+der Agent danach wirklich wie du klingt.
+
+```
+/utils:adapt-voice whatsapp
+/utils:adapt-voice whatsapp-export ~/Downloads/WhatsApp-Chat.txt
+/utils:adapt-voice mail
+/utils:adapt-voice linkedin ~/Downloads/Basic_LinkedInDataExport
+/utils:adapt-voice ~/Texte/antworten.docx
+```
+
+**Proben einsammeln.** Ein Skript liest lokal nur Texte, die du selbst geschrieben hast:
+aus der WhatsApp-App für macOS (du wählst die Chats), aus einem WhatsApp-Export, aus dem
+Apple-Mail-Ordner „Gesendet“ ohne zitierte Antworten und Signaturen (bei Gmail aus „All
+Mail“, gefiltert auf deine Absenderadresse), aus dem
+LinkedIn-Datenexport oder aus eigenen Dateien. Passwörter, Mailadressen,
+Telefonnummern, IBANs und Links ersetzt es durch Platzhalter, bevor irgendetwas
+gespeichert wird. Befehle und reine Links fliegen raus.
+
+**Profil ableiten.** Der Agent `utils:voice-writer` leitet daraus Grundton, Kanäle,
+Wortschatz, Satzbau, Zeichen, Haltung, Dosierung und eine Verbotsliste ab. Widersprüche
+entscheidest du.
+
+**Stil-Test in Zahlen.** Ab 25 Texten hält der Skill ein Fünftel zurück. Zu einigen
+davon schreibt der Agent eigene Texte, nur nach einem neutralen Inhalts-Steckbrief. Ein
+Skript vergleicht dann echt und Agent, zum Beispiel so:
+
+| Kennzahl | echt | Agent | Bewertung |
+|---|---|---|---|
+| Wörter pro Satz | 8 | 9 | ok |
+| Satzanfang klein (%) | 73 | 20 | weicht ab |
+| Emojis pro Text | 0,5 | 0,4 | ok |
+| typische Wörter pro 100 Wörter | 4 | 9 | weicht ab |
+
+Weicht etwas ab, passt der Agent die Dosierung im Profil an, und der Test läuft noch
+einmal. Zu viele typische Wörter sind dabei genauso ein Befund wie zu wenige, denn wer
+in jedem Satz „halt“ sagt, klingt wie eine Parodie.
+
+Grenzen: Die Proben gehen zur Analyse an das Modell, wie jeder Text, den du Claude
+zeigst. Für Mail und WhatsApp braucht das Terminal unter macOS den
+Festplattenvollzugriff. Die Datenbank-Variante funktioniert nur mit der WhatsApp-App
+für macOS, sonst nimmst du den Chat-Export.
 
 ## MakeNative
 
