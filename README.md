@@ -265,6 +265,41 @@ zeigst. Für Mail und WhatsApp braucht das Terminal unter macOS den
 Festplattenvollzugriff. Die Datenbank-Variante funktioniert nur mit der WhatsApp-App
 für macOS, sonst nimmst du den Chat-Export.
 
+### `/utils:lesbar` – einen Plan als HTML-Seite durchsehen und beantworten
+
+Ein Plan oder Review von Claude ist oft lang, erzählt chronologisch, und die
+Entscheidungen stehen ganz unten. Der Skill baut daraus eine HTML-Seite zum
+Durchsehen, aus demselben Inhalt und ohne eigene Zusammenfassung.
+
+```
+/utils:lesbar docs/MIGRATIONSPLAN.md
+```
+
+Oder im Gespräch: „mach den Plan lesbar“, „ich will die offenen Fragen direkt
+beantworten“.
+
+| Schicht | Was hineingehört | Wohin |
+|---|---|---|
+| Entscheidungen | alles, wo jemand wählen muss, bevor es weitergeht | ganz oben |
+| Status | erledigt, läuft, wartet, nicht anfassen | direkt darunter |
+| Arbeit | die konkreten Schritte, möglichst als Tabelle | Mitte |
+| Kontext | Begründungen, Hintergrund, Regeln | unten |
+
+**Fragen beantworten.** Offene Entscheidungen werden zu Feldern: die Optionen aus
+dem Plan zum Ankreuzen, ein Freitextfeld daneben. Ein Knopf baut daraus einen
+Antwortblock in Markdown, zeigt ihn an und legt ihn in die Zwischenablage. Du fügst
+ihn in die Session ein, und Claude arbeitet weiter. Unbeantwortete Fragen stehen als
+`— offen` darin, damit nichts geraten wird. Eingaben überstehen ein Neuladen.
+
+**Kein Server.** Die Seite ist eine einzelne Datei neben dem Plan (`<name>.html`),
+ohne externe Fonts oder Skripte, mit hellem und dunklem Theme. Du öffnest sie
+direkt im Browser. Auf Wunsch veröffentlicht Claude sie als Artifact, etwa zum
+Lesen auf dem Handy.
+
+Grenzen: Die Seite kann nicht selbst in die Session schreiben. Eine
+veröffentlichte Seite darf keine Requests nach außen schicken, und eine lokale
+Datei hat keinen Draht zum Terminal. Deshalb der Weg über die Zwischenablage.
+
 ## MakeNative
 
 Dieses Plugin ist Teil von [MakeNative](https://makenative.de). Wir arbeiten jeden Tag mit
