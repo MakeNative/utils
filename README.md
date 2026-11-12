@@ -149,12 +149,20 @@ frisch und lässt die neue Session in der alten nachschlagen:
 ```
 /utils:continue list           # letzte Sessions dieses Projekts
 /utils:continue b4a5001e       # eine bestimmte Session, ID-Anfang reicht
+/utils:continue workshop       # nach Titel, eigener aus /rename oder automatischer
 ```
 
-**Startstand.** Ohne Angabe nimmt der Skill die zuletzt geänderte andere
-Session im selben Ordner. Er lädt nur einen kurzen Stand: Titel, Ordner und
-Branch, deine Eingaben mit Nachrichtennummer, die zuletzt geänderten Dateien,
-eine vorhandene Kompaktierungs-Zusammenfassung und die letzten 25 Nachrichten.
+**Startstand.** Ohne Angabe nimmt der Skill die Session vor dem `/clear`, mit
+dem die neue Session begonnen hat. Ohne `/clear` nimmt er die zuletzt geänderte
+andere Session im selben Ordner. Leere Neustarts überspringt er, also Sessions,
+in denen nach `/clear` nichts gesagt wurde, etwa ein abgebrochener Versuch. Er
+lädt nur einen kurzen Stand: Titel, Ordner und Branch, deine Eingaben mit
+Nachrichtennummer, die zuletzt geänderten Dateien, eine vorhandene
+Kompaktierungs-Zusammenfassung und die letzten 25 Nachrichten.
+
+Die Suche nach Titeln geht über alle Sessions des Projekts. Mit
+[ripgrep](https://github.com/BurntSushi/ripgrep) dauert sie etwa eine Sekunde,
+ohne ripgrep bei großen Projekten einige Sekunden.
 
 **Details bei Bedarf.** Alles Weitere sucht Claude im Transkript, sobald es
 gebraucht wird, und übernimmt es wörtlich, mit Nachrichtennummer. Dafür liegt

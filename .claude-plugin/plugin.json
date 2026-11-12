@@ -1,7 +1,7 @@
 {
   "name": "utils",
   "description": "Kleine Helfer für den Alltag mit Claude Code. /utils:parallel verteilt eine Aufgabe auf bis zu 20 gleichzeitig laufende Agenten und führt die Ergebnisse zusammen. /utils:goal-tracker hält eine Session bei ihrem Ziel: Ziel-Datei mit Endzustand, Prüfung und Scope, fertige /goal-Zeile, geparkte Nebenbefunde, Hooks gegen Vergessen nach Kompaktierung und eine Übersicht über alle offenen Sessions. /utils:continue ersetzt Kompaktierung: frische Session, die Details wörtlich aus dem vollständigen Transkript der alten nachschlägt. /utils:repo-check prüft fremde GitHub-Repos auf Köder-Merkmale, bevor Dateien daraus geladen werden. /utils:my-voice schreibt Nachrichten, Mails, Doc-Texte und Posts in deinem eigenen Ton, nach einem Stilprofil, das nur auf deinem Rechner liegt. /utils:adapt-voice legt dieses Profil an: sammelt deine eigenen Texte lokal aus WhatsApp, Mail, LinkedIn oder Dateien, entfernt Passwörter und Kontaktdaten und misst mit einem Stil-Test, ob der Agent danach wirklich wie du klingt. /utils:lesbar bereitet einen langen Plan oder ein Review als HTML-Seite zum Durchsehen auf, mit beantwortbaren offenen Fragen: ausfüllen, Antwortblock kopieren, in die Session einfügen.",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "author": {
     "name": "ceichmueller"
   },
