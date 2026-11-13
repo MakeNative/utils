@@ -14,6 +14,14 @@
           { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/skills/goal-tracker/scripts/goal-tracker.sh", "anker"] }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "StructuredOutput",
+        "hooks": [
+          { "type": "command", "command": "python3", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/rule-gate-guard.py"], "timeout": 30 }
+        ]
+      }
     ]
   }
 }

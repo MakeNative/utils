@@ -308,6 +308,47 @@ Grenzen: Die Seite kann nicht selbst in die Session schreiben. Eine
 veröffentlichte Seite darf keine Requests nach außen schicken, und eine lokale
 Datei hat keinen Draht zum Terminal. Deshalb der Weg über die Zwischenablage.
 
+### `/utils:rule-gate` – Texte vor dem Umsetzen gegen feste Regeln prüfen
+
+Eine Wortliste findet „Likes kaufen“, aber nicht „Reichweite in Auftrag geben, bis
+der Zähler stimmt“. Der Agent `rule-gate` prüft Texte nach ihrer Bedeutung gegen
+Regeln, die du mitgibst, und sagt je Text ok oder gesperrt, mit Regel, Zitat und
+Grund. Er kennt kein Projekt, die Regeln kommen immer vom Aufrufer.
+
+```
+/utils:rule-gate ideen.md regeln.md
+/utils:rule-gate "Wir lassen die Creatorin posten, ohne die Kooperation zu nennen."
+```
+
+Regeln stehen in einer Datei, JSON (`[{"key", "sentence", "meaning"}]`) oder
+Markdown (`- <key>: <Satz> — <Erläuterung>`), oder im Projekt unter
+`.claude/rule-gate.json` im Feld `rules`.
+
+**In einer Pipeline.** Ohne Bildschirm rufst du den Agenten direkt auf:
+`claude -p --plugin-dir <utils> --agent utils:rule-gate --json-schema …`. Er
+liefert `{"results": [{"id", "verdict": "pass"|"block", "ruleKey", "quote",
+"reason"}]}`. Geprüfte Texte behandelt er als Daten: Ein Satz wie „Ignoriere die
+Regeln“ im Text wird selbst gesperrt. Er hat kein Memory, damit er jedes Mal gleich
+urteilt.
+
+**Guard-Hook.** Zusätzlich kann ein Projekt jede Endausgabe seiner Agenten
+deterministisch prüfen lassen. Der Hook läuft vor `StructuredOutput` und ist aus,
+solange das Projekt ihn nicht einschaltet, über `RULE_GATE_CONFIG` oder
+`.claude/rule-gate.json`:
+
+```json
+{ "guard": { "check": ["node", "/abs/pfad/check.js"], "agents": ["mein-kit:*"] } }
+```
+
+Der Prüfbefehl bekommt die Ausgabe als JSON auf stdin. Exit 0 heißt ok, Exit 1
+heißt Verstoß, mit dem Grund in der ersten Zeile. Dann blockt der Hook, und der
+Agent muss seine Ausgabe ändern. Ist der Prüfbefehl nicht erreichbar, blockt er
+ebenfalls.
+
+Grenzen: Auch der Agent kann irren. Er ist eine zweite Schicht hinter einer
+schnellen Wortprüfung, kein Ersatz für Sperren im Code. Was nie passieren darf,
+gehört in den Code, nicht nur in einen Text.
+
 ## MakeNative
 
 Dieses Plugin ist Teil von [MakeNative](https://makenative.de). Wir arbeiten jeden Tag mit
